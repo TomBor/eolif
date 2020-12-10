@@ -1,8 +1,7 @@
-# Éolif : carte de prévision de vents en gif
-🌬️
-Chaque jour, les prévisions de vents heure par heure pour le lendemain (6h j+1 à 6h j+2) sont téléchargées.
+# Éolif : 🌬 ️carte de prévision de vents en gif
+Pour un jour j, les prévisions de vents heure par heure pour le lendemain (6h j+1 à 6h j+2) sont téléchargées.
 Une carte par heure sous forme de lignes de courant (*streamlines*) est générée.
-Les 24 cartes sont rassemblées dans un gif et publiées sur twitter : [@eolif]().
+Les 24 cartes sont rassemblées dans un gif.
 
 
 ## Sources
