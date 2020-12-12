@@ -18,7 +18,7 @@ library(magick)
 ################### PARAMÈTRES ##############################
 ######### 1. Généraux #########
 # Token d'accès au geoservice météo france
-token <- "xxxx"
+token <- Sys.getenv("token")
 
 # résolution du modèle 0,001 deg ou 0,0025 deg
 modele <- '0025'
