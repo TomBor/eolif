@@ -33,7 +33,7 @@ jobs:
 
       # Install all necesserary packages
       - name: Intall packages
-        run: Rscript -e 'install.packages(c("stars", "tidyverse", "glue", "lubridate", "metR", "magick)')
+        run: Rscript -e 'install.packages(c("stars", "tidyverse", "glue", "lubridate", "metR", "magick))'
 
       # execute the script
       - name: Run script
