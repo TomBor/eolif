@@ -20,7 +20,7 @@ jobs:
 
     # retrieve secrets from github
     env:
-        apikey: ${{ secrets.TOKEN}}
+        token: ${{ secrets.TOKEN}}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
