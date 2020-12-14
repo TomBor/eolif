@@ -34,7 +34,8 @@ jobs:
       # Install all necesserary packages
       - name: Intall packages
         run: Rscript -e 'install.packages(c("remotes", "stars", "tidyverse", "glue", "lubridate", "metR", "magick", "av"))'
-        run: Rscript -e 'remotes::install_github("tylermorganwall/rtweet@media-fixes")'
+
+      - run: Rscript -e 'remotes::install_github("tylermorganwall/rtweet@media-fixes")'
 
       # execute the script
       - name: Run script
