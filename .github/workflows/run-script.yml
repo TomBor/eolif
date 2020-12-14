@@ -30,6 +30,12 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+
+      # Install ImageOptim-CLI
+      - name: ImageOptim-CLI
+        uses: brew install imageoptim-cli
+
+      # Setup R
       - name: Setup R
         uses: r-lib/actions/setup-r@v1
         with:

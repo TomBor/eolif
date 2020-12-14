@@ -209,16 +209,23 @@ pwalk(list(u = files_name[1:24], v = files_name[25:48],
 
 message("Plots générés")
 
+# optimiser le poids des jpeg
+system(glue("imageoptim {td}/plot_*.jpg"))
+
 # création du gif avec ImageMagick
+gif_name <- glue('previsions-vent-{date(ymd_hms(forecast[1]))}.gif')
 list.files(path = td, pattern = "plot", full.names = TRUE) %>%
   str_sort(numeric = TRUE) %>% 
   map(image_read) %>% 
   image_join() %>% 
   image_scale("x500") %>%
   image_animate(fps = 5) %>%
-  image_write(file.path("img", glue('previsions-vent-{date(ymd_hms(forecast[1]))}.gif')))
+  image_write(glue("{td}/{gif_name}"))
 
 message("Gif crée")
+
+# optimiser le poids du gif
+system(glue("imageoptim {td}/*.gif"))
 
 ######### PLOT #########
 # authentification au compte twitter @Eole_Gif
@@ -233,7 +240,7 @@ token_twitter <- create_token(
 
 # /!\ poids images < 5MB sinon ne passe pas
 post_tweet(status = glue("Prévisions de vent du {date(ymd_hms(forecast[1]))}"),
-           media = file.path("img", "previsions-vent-2020-12-11.gif"),
+           media = glue("{td}/{gif_name}"),
           token = token_twitter)
 
 message("Tweet envoyé")
