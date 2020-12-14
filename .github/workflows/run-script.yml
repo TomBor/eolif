@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: eolif : generate map and tweet
 
 # Controls when the action will run.
 on:
@@ -21,8 +21,8 @@ jobs:
     # retrieve secrets from github
     env:
         token: ${{ secrets.TOKEN}}
-        apikey: ${{ secrets.APIKEY}}
-        apisecretkey: ${{ secrets.APISECRETKEY}}
+        api_key: ${{ secrets.APIKEY}}
+        api_secret_key: ${{ secrets.APISECRETKEY}}
         access_token: ${{ secrets.ACCESS_TOKEN}}
         access_token_secret: ${{ secrets.ACCESS_TOKEN_SECRET}}
 
@@ -30,14 +30,6 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
-      # Install ImageOptim
-      - name: ImageOptim GUI
-        run: brew install --cask imageoptim
-
-      # Install ImageOptim-CLI
-      - name: ImageOptim-CLI
-        run: brew install imageoptim-cli
 
       # Setup R
       - name: Setup R
@@ -47,7 +39,8 @@ jobs:
 
       # Install all necesserary packages
       - name: Intall packages
-        run: Rscript -e 'install.packages(c("stars", "tidyverse", "glue", "lubridate", "metR", "rtweet", "magick"))'
+        run: Rscript -e 'install.packages(c("remotes", "stars", "tidyverse", "glue", "lubridate", "metR", "magick", "av"))'
+        run: Rscript -e 'remotes::install_github("tylermorganwall/rtweet@media-fixes")'
 
       # execute the script
       - name: Run script

@@ -4,6 +4,9 @@ library(glue)
 library(lubridate)
 library(metR)
 library(magick)
+library(av)
+# nécessite version spécifique de rtweet pour uploader des mp4 ou gif
+# remotes::install_github("tylermorganwall/rtweet@media-fixes")
 library(rtweet)
 
 
@@ -209,25 +212,18 @@ pwalk(list(u = files_name[1:24], v = files_name[25:48],
 
 message("Plots générés")
 
-# optimiser le poids des jpeg
-system(glue("imageoptim {td}/plot_*.jpg"))
-
 # création du gif avec ImageMagick
 gif_name <- glue('previsions-vent-{date(ymd_hms(forecast[1]))}.gif')
 list.files(path = td, pattern = "plot", full.names = TRUE) %>%
   str_sort(numeric = TRUE) %>% 
   map(image_read) %>% 
   image_join() %>% 
-  image_scale("x500") %>%
-  image_animate(fps = 5) %>%
-  image_write(glue("{td}/{gif_name}"))
+  image_scale("x1080") %>%
+  image_write_video(glue("{td}/{gif_name}"), framerate = 5)
 
 message("Gif crée")
 
-# optimiser le poids du gif
-system(glue("imageoptim {td}/*.gif"))
-
-######### PLOT #########
+######### TWITTER #########
 # authentification au compte twitter @Eole_Gif
 token_twitter <- create_token(
   app = "eolif",
@@ -238,9 +234,12 @@ token_twitter <- create_token(
   set_renv = FALSE
   )
 
-# /!\ poids images < 5MB sinon ne passe pas
+# /!\ version officielle de rtweet non compatible avec envoi de fichier gif ou mp4
+# Tyler morgan wall à proposé un fixe dispo dans son fork
+# https://github.com/tylermorganwall/rtweet/tree/media-fixes
+# remotes::install_github("tylermorganwall/rtweet@media-fixes")
 post_tweet(status = glue("Prévisions de vent du {date(ymd_hms(forecast[1]))}"),
            media = glue("{td}/{gif_name}"),
           token = token_twitter)
 
-message("Tweet envoyé")
+message("Fin du script")
