@@ -4,6 +4,7 @@ library(glue)
 library(lubridate)
 library(metR)
 library(magick)
+library(rtweet)
 
 
 ################### INFOS ##############################
@@ -80,11 +81,15 @@ td = tempdir()
 # téléchargement dans le dossier temporaire
 walk2(urls_request, files_name, ~ download_retry(.x, destfile = file.path(td, glue('{.y}.tiff')), method = "libcurl"))
 
+message("Fichiers tiff téléchargés")
+
 ################### TRAITEMENT DES DONNÉES ##############################
 # Utilisation du package stars : https://r-spatial.github.io/stars/index.html
 # /!\ crs des tiff en WGS84 (EPSG:4326)
 wind <- read_stars(file.path(td, glue('{files_name}.tiff'))) %>%
   setNames(files_name)
+
+message("Fichiers tiff chargés")
 
 ######### 1. Reprojection #########
 # Reprojeter en Lambert 93 en conservant une grille régulière
@@ -112,6 +117,7 @@ wind_df <- st_as_sf(wind_l93, as_points = TRUE) %>%
          y = as.numeric(st_coordinates(geometry)[,2])) %>%
   st_drop_geometry()
 
+message("Conversion en dataframe réussie")
 
 ######### PLOT #########
 # Streamlines générées par le package {metR}
@@ -201,12 +207,33 @@ pwalk(list(u = files_name[1:24], v = files_name[25:48],
            f = forecast, progressBar = progress_bar,
            destfile = glue('plot_{1:24}.jpg')), wind_plot)
 
+message("Plots générés")
 
 # création du gif avec ImageMagick
 list.files(path = td, pattern = "plot", full.names = TRUE) %>%
   str_sort(numeric = TRUE) %>% 
   map(image_read) %>% 
   image_join() %>% 
-  image_scale("x1000") %>%
+  image_scale("x500") %>%
   image_animate(fps = 5) %>%
   image_write(file.path("img", glue('previsions-vent-{date(ymd_hms(forecast[1]))}.gif')))
+
+message("Gif crée")
+
+######### PLOT #########
+# authentification au compte twitter @Eole_Gif
+token_twitter <- create_token(
+  app = "eolif",
+  consumer_key = Sys.getenv("api_key"),
+  consumer_secret = Sys.getenv("api_secret_key"),
+  access_token = Sys.getenv("access_token"),
+  access_secret = Sys.getenv("access_token_secret"),
+  set_renv = FALSE
+  )
+
+# /!\ poids images < 5MB sinon ne passe pas
+post_tweet(status = glue("Prévisions de vent du {date(ymd_hms(forecast[1]))}"),
+           media = file.path("img", "previsions-vent-2020-12-11.gif"),
+          token = token_twitter)
+
+message("Tweet envoyé")

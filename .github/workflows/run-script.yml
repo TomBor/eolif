@@ -21,6 +21,10 @@ jobs:
     # retrieve secrets from github
     env:
         token: ${{ secrets.TOKEN}}
+        apikey: ${{ secrets.APIKEY}}
+        apisecretkey: ${{ secrets.APISECRETKEY}}
+        access_token: ${{ secrets.ACCESS_TOKEN}}
+        access_token_secret: ${{ secrets.ACCESS_TOKEN_SECRET}}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -33,7 +37,7 @@ jobs:
 
       # Install all necesserary packages
       - name: Intall packages
-        run: Rscript -e 'install.packages(c("stars", "tidyverse", "glue", "lubridate", "metR", "magick"))'
+        run: Rscript -e 'install.packages(c("stars", "tidyverse", "glue", "lubridate", "metR", "rtweet", "magick"))'
 
       # execute the script
       - name: Run script
