@@ -31,6 +31,10 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
+      # Install ImageOptim
+      - name: ImageOptim GUI
+        run: brew install --cask imageoptim
+
       # Install ImageOptim-CLI
       - name: ImageOptim-CLI
         run: brew install imageoptim-cli
