@@ -3,6 +3,8 @@ library(tidyverse)
 library(glue)
 library(lubridate)
 library(metR)
+# dépendance de metR version 0.8
+library(data.table)
 library(magick)
 library(av)
 # nécessite version spécifique de rtweet pour uploader des mp4 ou gif
