@@ -33,7 +33,7 @@ jobs:
 
       # Install ImageOptim-CLI
       - name: ImageOptim-CLI
-        uses: brew install imageoptim-cli
+        run: brew install imageoptim-cli
 
       # Setup R
       - name: Setup R
