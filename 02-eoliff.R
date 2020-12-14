@@ -213,7 +213,7 @@ pwalk(list(u = files_name[1:24], v = files_name[25:48],
 message("Plots générés")
 
 # création du gif avec ImageMagick
-gif_name <- glue('previsions-vent-{date(ymd_hms(forecast[1]))}.gif')
+gif_name <- glue('previsions-vent-{date(ymd_hms(forecast[1]))}.mp4')
 list.files(path = td, pattern = "plot", full.names = TRUE) %>%
   str_sort(numeric = TRUE) %>% 
   map(image_read) %>% 
