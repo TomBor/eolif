@@ -20,4 +20,4 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      -run: Rscript -e 'print(1+1)'
+      - run: Rscript -e 'print(1+1)'
