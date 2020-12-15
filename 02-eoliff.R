@@ -212,7 +212,6 @@ pwalk(list(u = files_name[1:24], v = files_name[25:48],
            f = forecast, progressBar = progress_bar,
            destfile = glue('plot_{1:24}.jpg')), wind_plot)
 
-warnings()
 message("Plots générés")
 
 # création du gif avec ImageMagick
@@ -246,3 +245,5 @@ post_tweet(status = glue("Prévisions de vent du {date(ymd_hms(forecast[1]))}"),
           token = token_twitter)
 
 message("Fin du script")
+message("Show warnings")
+warnings()
