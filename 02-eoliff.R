@@ -1,6 +1,7 @@
 library(stars)
 library(tidyverse)
 library(glue)
+library(furrr)
 library(lubridate)
 library(metR)
 # dépendance de metR version 0.8
@@ -132,7 +133,7 @@ message("Conversion en dataframe réussie")
 # habillage carto => natural earth
 ne_border <- st_read(file.path("data", "ne_10m_borders.shp"))
 cities <- st_read(file.path("data", "cities.shp"))
-relief <- image_read(file.path("data", "relief.png"))
+relief <- image_read(file.path("data", "relief.png")) %>% as.raster
 
 # vitesse de vent sous forme de classe discrète plutôt que continue
 # assure la comparaison entre les cartes
@@ -208,9 +209,12 @@ wind_plot <- function(u, v, f, progressBar, destfile) {
 }
 
 # générer les plots
-pwalk(list(u = files_name[1:24], v = files_name[25:48],
+plan(multisession)
+
+future_pwalk(list(u = files_name[1:24], v = files_name[25:48],
            f = forecast, progressBar = progress_bar,
-           destfile = glue('plot_{1:24}.jpg')), wind_plot)
+           destfile = glue('plot_{1:24}.jpg')), wind_plot,
+           .options = furrr_options(seed = TRUE))
 
 message("Plots générés")
 
