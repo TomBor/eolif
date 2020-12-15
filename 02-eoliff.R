@@ -36,7 +36,7 @@ indic <- c(u = u_indic, v = v_indic)
 
 ######### 2. temporels #########
 # Jours
-j <- Sys.Date()
+j <- Sys.Date() -1
 j1 <- j +1
 j2 <- j +2
 
