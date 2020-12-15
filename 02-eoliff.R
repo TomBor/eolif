@@ -36,7 +36,7 @@ indic <- c(u = u_indic, v = v_indic)
 
 ######### 2. temporels #########
 # Jours
-j <- Sys.Date() -1
+j <- Sys.Date()
 j1 <- j +1
 j2 <- j +2
 
@@ -133,7 +133,7 @@ message("Conversion en dataframe réussie")
 # habillage carto => natural earth
 ne_border <- st_read(file.path("data", "ne_10m_borders.shp"))
 cities <- st_read(file.path("data", "cities.shp"))
-relief <- image_read(file.path("data", "relief.png")) %>% as.raster
+relief <- image_read(file.path("data", "relief.png"))
 
 # vitesse de vent sous forme de classe discrète plutôt que continue
 # assure la comparaison entre les cartes
@@ -209,12 +209,9 @@ wind_plot <- function(u, v, f, progressBar, destfile) {
 }
 
 # générer les plots
-plan(multisession)
-
-future_pwalk(list(u = files_name[1:24], v = files_name[25:48],
+pwalk(list(u = files_name[1:24], v = files_name[25:48],
            f = forecast, progressBar = progress_bar,
-           destfile = glue('plot_{1:24}.jpg')), wind_plot,
-           .options = furrr_options(seed = TRUE))
+           destfile = glue('plot_{1:24}.jpg')), wind_plot))
 
 message("Plots générés")
 
