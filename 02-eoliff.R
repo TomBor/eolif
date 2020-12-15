@@ -1,7 +1,6 @@
 library(stars)
 library(tidyverse)
 library(glue)
-library(furrr)
 library(lubridate)
 library(metR)
 # dépendance de metR version 0.8
