@@ -203,8 +203,8 @@ wind_plot <- function(u, v, f, progressBar, destfile) {
           plot.tag.position = c(0.04, 0.06),
           plot.margin = margin(0,0,-25,-14),
           # changer le fond gris de geom_sf
-          panel.background = element_blank()) +
-   ggsave(destfile, path = td, height = 20, width = 17, units = "cm")
+          panel.background = element_blank())
+  ggsave(destfile, path = td, plot = p, height = 20, width = 17, units = "cm")
 }
 
 # générer les plots
