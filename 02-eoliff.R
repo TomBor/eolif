@@ -3,12 +3,10 @@ library(tidyverse)
 library(glue)
 library(lubridate)
 library(metR)
-# dépendance de metR version 0.8
-library(data.table)
 library(magick)
 library(av)
 # nécessite version spécifique de rtweet pour uploader des mp4 ou gif
-# remotes::install_github("tylermorganwall/rtweet@media-fixes")
+# devtools::install_github("tylermorganwall/rtweet@media-fixes")
 library(rtweet)
 
 
@@ -203,8 +201,8 @@ wind_plot <- function(u, v, f, progressBar, destfile) {
           plot.tag.position = c(0.04, 0.06),
           plot.margin = margin(0,0,-25,-14),
           # changer le fond gris de geom_sf
-          panel.background = element_blank()) +
-   ggsave(destfile, path = td, height = 20, width = 17, units = "cm")
+          panel.background = element_blank())
+  ggsave(destfile, path = td, plot = p, height = 20, width = 17, units = "cm")
 }
 
 # générer les plots
@@ -240,7 +238,7 @@ token_twitter <- create_token(
 # /!\ version officielle de rtweet non compatible avec envoi de fichier gif ou mp4
 # Tyler morgan wall à proposé un fixe dispo dans son fork
 # https://github.com/tylermorganwall/rtweet/tree/media-fixes
-# remotes::install_github("tylermorganwall/rtweet@media-fixes")
+# devtools::install_github("tylermorganwall/rtweet@media-fixes")
 post_tweet(status = glue("Prévisions de vent du {date(ymd_hms(forecast[1]))}"),
            media = glue("{td}/{gif_name}"),
           token = token_twitter)
