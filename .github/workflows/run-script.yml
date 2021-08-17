@@ -20,12 +20,12 @@ jobs:
 
     # retrieve secrets from github
     env:
-        token: ${{ secrets.TOKEN}}
-        api_key: ${{ secrets.APIKEY}}
-        api_secret_key: ${{ secrets.APISECRETKEY}}
-        access_token: ${{ secrets.ACCESS_TOKEN}}
-        access_token_secret: ${{ secrets.ACCESS_TOKEN_SECRET}}
-        GITHUB_PAT: ${{ secrets.PAT}}
+        token: ${{ secrets.TOKEN }}
+        api_key: ${{ secrets.APIKEY }}
+        api_secret_key: ${{ secrets.APISECRETKEY }}
+        access_token: ${{ secrets.ACCESS_TOKEN }}
+        access_token_secret: ${{ secrets.ACCESS_TOKEN_SECRET }}
+        GITHUB_PAT: ${{ secrets.PAT }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -36,7 +36,7 @@ jobs:
       - name: Intall packages
         run: Rscript -e 'install.packages(c("devtools", "stars", "tidyverse", "glue", "lubridate", "metR", "magick", "av"), repos = "https://cloud.r-project.org/", type = "mac.binary")'
 
-      - run: Rscript -e 'devtools::install_github("tylermorganwall/rtweet@media-fixes", auth_token = ${{ secrets.PAT}})'
+      - run: Rscript -e 'devtools::install_github("tylermorganwall/rtweet@media-fixes", auth_token = "${{ secrets.PAT }}")'
 
       # execute the script
       - name: Run script
